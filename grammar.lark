@@ -1,0 +1,114 @@
+// ─── TERMINALES: PALABRAS RESERVADAS ─────────────────────────────────────────
+PROGRAMA.2   : "programa"
+INICIO.2     : "inicio"
+FIN.2        : "fin"
+VARS_KW.2    : "vars"
+MIENTRAS.2   : "mientras"
+HAZ.2        : "haz"
+SI.2         : "si"
+SINO.2       : "sino"
+ESCRIBE.2    : "escribe"
+NULA.2       : "nula"
+ENTERO.2     : "entero"
+FLOTANTE.2   : "flotante"
+
+// ─── TERMINALES: IDENTIFICADORES Y CONSTANTES ────────────────────────────────
+ID           : /[a-zA-Z_][a-zA-Z0-9_]*/
+CTE_FLOT     : /[0-9]+\.[0-9]+/
+CTE_ENT      : /[0-9]+/
+LETRERO      : /\"[^\"]*\"/
+
+// ─── TERMINALES: OPERADORES RELACIONALES ─────────────────────────────────────
+IGUAL_IGUAL  : "=="
+DIFERENTE    : "!="
+MAYOR_QUE    : ">"
+MENOR_QUE    : "<"
+
+// ─── TERMINALES: OPERADORES ARITMÉTICOS Y ASIGNACIÓN ─────────────────────────
+MAS          : "+"
+MENOS        : "-"
+MULT         : "*"
+DIV          : "/"
+ASIGNA       : "="
+
+// ─── TERMINALES: DELIMITADORES ───────────────────────────────────────────────
+PUNTO_COMA   : ";"
+COMA         : ","
+DOS_PUNTOS   : ":"
+PAR_ABRE     : "("
+PAR_CIERRA   : ")"
+LLAVE_ABRE   : "{"
+LLAVE_CIERRA : "}"
+
+%ignore /[ \t\n\r]+/
+
+// ─── REGLAS GRAMATICALES ──────────────────────────────────────────────────────
+
+programa     : PROGRAMA ID PUNTO_COMA vars funcs INICIO cuerpo FIN
+
+vars         : VARS_KW var_decl+
+             |
+var_decl     : idlist DOS_PUNTOS tipo PUNTO_COMA
+idlist       : ID (COMA ID)*
+tipo         : ENTERO
+             | FLOTANTE
+
+funcs        : func_decl*
+func_decl    : retorno ID PAR_ABRE params PAR_CIERRA LLAVE_ABRE vars cuerpo LLAVE_CIERRA PUNTO_COMA
+retorno      : NULA
+             | tipo
+params       : ID DOS_PUNTOS tipo (COMA ID DOS_PUNTOS tipo)*
+             |
+
+// estatuto* permite cuerpo vacío
+cuerpo       : estatuto*
+
+estatuto     : asigna
+             | condicion
+             | ciclo
+             | imprime
+             | llamada
+
+asigna       : ID ASIGNA expresion PUNTO_COMA
+
+condicion    : SI PAR_ABRE expresion PAR_CIERRA LLAVE_ABRE cuerpo LLAVE_CIERRA
+             | SI PAR_ABRE expresion PAR_CIERRA LLAVE_ABRE cuerpo LLAVE_CIERRA SINO LLAVE_ABRE cuerpo LLAVE_CIERRA
+
+ciclo        : MIENTRAS PAR_ABRE expresion PAR_CIERRA HAZ LLAVE_ABRE cuerpo LLAVE_CIERRA PUNTO_COMA
+
+imprime      : ESCRIBE PAR_ABRE print_item (COMA print_item)* PAR_CIERRA PUNTO_COMA
+print_item   : expresion
+             | LETRERO
+
+llamada      : ID PAR_ABRE args PAR_CIERRA PUNTO_COMA
+
+args         : expresion (COMA expresion)*
+             |
+
+expresion    : exp op_rel exp
+             | exp
+
+op_rel       : MENOR_QUE
+             | MAYOR_QUE
+             | IGUAL_IGUAL
+             | DIFERENTE
+
+exp          : exp MAS termino
+             | exp MENOS termino
+             | termino
+
+termino      : termino MULT factor
+             | termino DIV factor
+             | factor
+
+factor       : MAS factor
+             | MENOS factor
+             | PAR_ABRE expresion PAR_CIERRA
+             | llamada_expr
+             | cte
+             | ID
+
+llamada_expr : ID PAR_ABRE args PAR_CIERRA
+
+cte          : CTE_ENT
+             | CTE_FLOT

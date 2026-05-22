@@ -1,0 +1,30 @@
+programa factorial;
+vars
+    n, resultado : entero;
+    pi           : flotante;
+
+nula calcular(x : entero) {
+vars
+    i : entero;
+    resultado = 1;
+    i = 1;
+    mientras (i < x) haz {
+        resultado = resultado * i;
+        i = i + 1;
+    };
+    escribe(resultado, " es el resultado de ");
+    escribe(x);
+};
+
+inicio
+    n = 5;
+    pi = 3.14;
+    si (n > 0) {
+        calcular(n);
+    } sino {
+        escribe("n debe ser positivo");
+    }
+    mientras (n > 0) haz {
+        n = n - 1;
+    };
+fin
