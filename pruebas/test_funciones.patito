@@ -1,0 +1,43 @@
+programa test_funciones;
+vars
+    resultado : entero;
+    factor : flotante;
+
+nula saludar(veces : entero) {
+    vars
+        i : entero;
+    i = veces;
+    mientras (i > 0) haz {
+        escribe("Hola!");
+        i = i - 1;
+    };
+};
+
+entero max(p : entero, q : entero) {
+    vars
+        m : entero;
+    si (p > q) {
+        m = p;
+    } sino {
+        m = q;
+    }
+    escribe("max =", m);
+};
+
+inicio
+    resultado = 0;
+    factor = 2.5;
+
+    si (resultado == 0) {
+        escribe("resultado es cero");
+        saludar(3);
+    } sino {
+        escribe("resultado no es cero");
+    }
+
+    max(10, 7);
+    max(4, 9);
+
+    factor = factor + 1.0;
+    escribe("factor final =", factor);
+fin

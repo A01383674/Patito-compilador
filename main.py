@@ -12,12 +12,12 @@ def compilar(codigo: str):
         arbol = parser.parse(codigo)
         print("✓ Análisis léxico y sintáctico exitoso")
     except exceptions.UnexpectedCharacters as e:
-        print(f"✗ Error léxico en línea {e.line}, columna {e.column}:")
-        print(f"  Carácter inesperado: '{e.char}'")
+        print(f"✗ Error léxico en línea {e.line}, col {e.column}: "
+              f"carácter inesperado '{e.char}'")
         return None
     except exceptions.UnexpectedToken as e:
-        print(f"✗ Error sintáctico en línea {e.line}, columna {e.column}:")
-        print(f"  Token inesperado: '{e.token}' (tipo: {e.token.type})")
+        print(f"✗ Error sintáctico en línea {e.line}, col {e.column}: "
+              f"token inesperado '{e.token}' (tipo: {e.token.type})")
         return None
     except exceptions.UnexpectedEOF:
         print("✗ Error: fin de archivo inesperado.")
@@ -28,14 +28,13 @@ def compilar(codigo: str):
     ok = semantico.analizar(arbol)
 
     if ok:
-        semantico.imprimir_estructuras()
-        semantico.imprimir_cuadruplos()
+        semantico.imprimir_todo()
 
     return arbol, semantico
 
 
 def main():
-    ruta = sys.argv[1] if len(sys.argv) > 1 else "pruebas/ejemplo.patito"
+    ruta = sys.argv[1] if len(sys.argv) > 1 else "pruebas/test_simple.patito"
     try:
         with open(ruta, "r", encoding="utf-8") as f:
             codigo = f.read()

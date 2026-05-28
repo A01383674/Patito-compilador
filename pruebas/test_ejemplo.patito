@@ -1,0 +1,40 @@
+programa ejemplo;
+vars
+    x, y, z : entero;
+    pi : flotante;
+
+nula imprimir_suma(a : entero, b : entero) {
+    vars
+        s : entero;
+    s = a + b;
+    escribe("Suma =", s);
+};
+
+entero cuadrado(n : entero) {
+    vars
+        r : entero;
+    r = n * n;
+    escribe("Cuadrado =", r);
+};
+
+inicio
+    x = 10;
+    y = 3;
+    z = x - y;
+    pi = 3.14;
+
+    si (x > y) {
+        escribe("x es mayor que y");
+        escribe(x);
+    } sino {
+        escribe("y es mayor o igual a x");
+    }
+
+    mientras (z > 0) haz {
+        z = z - 1;
+        escribe(z);
+    };
+
+    imprimir_suma(x, y);
+    cuadrado(y);
+fin

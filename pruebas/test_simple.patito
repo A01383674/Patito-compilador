@@ -1,0 +1,18 @@
+programa simple;
+vars
+    a, b : entero;
+    c : flotante;
+inicio
+    a = 5;
+    b = 2;
+    c = 1.5;
+    si (a > b) {
+        escribe("a es mayor");
+        escribe(a);
+    }
+    mientras (b > 0) haz {
+        b = b - 1;
+        escribe(b);
+    };
+    escribe("fin", c);
+fin

@@ -12,7 +12,7 @@ vars
         resultado = resultado * i;
         i = i + 1;
     };
-    escribe(resultado, " es el resultado de ");
+    escribe(resultado);
     escribe(x);
 };
 
